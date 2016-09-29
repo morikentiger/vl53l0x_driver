@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(ros_distance_publisher_by_vl53l0x)
+project(vl53l0x_driver)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -128,8 +128,8 @@ include_directories(
 # add_dependencies(ros_distance_publisher_by_vl53l0x ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(ros_distance_publisher_by_vl53l0x_node src/VL53L0X.cpp src/ros_distance_publisher_by_vl53l0x_node.cpp)
-target_link_libraries(ros_distance_publisher_by_vl53l0x_node ${catkin_LIBRARIES})
+add_executable(vl53l0x_driver src/VL53L0X.cpp src/ros_distance_publisher_by_vl53l0x_node.cpp)
+target_link_libraries(vl53l0x_driver ${catkin_LIBRARIES})
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(ros_distance_publisher_by_vl53l0x_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
