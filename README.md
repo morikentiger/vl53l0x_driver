@@ -1,4 +1,4 @@
-# ros_distance_publisher_by_vl53l0x
+# vl53l0x_driver
 
 This repository is ROS node to use the VL53L0X written in C++.
 
