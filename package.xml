@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>ros_distance_publisher_by_vl53l0x</name>
+  <name>vl53l0x_driver</name>
   <version>1.0.0</version>
-  <description>The ros_distance_publisher_by_vl53l0x package</description>
+  <description>The vl53l0x_driver package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
   <!-- Example:  -->
@@ -19,7 +19,7 @@
   <!-- Url tags are optional, but mutiple are allowed, one per tag -->
   <!-- Optional attribute type can be: website, bugtracker, or repository -->
   <!-- Example: -->
-  <!-- <url type="website">http://wiki.ros.org/ros_distance_publisher_by_vl53l0x</url> -->
+  <url type="website">https://github.com/morikentiger/vl53l0x_driver</url>
 
 
   <!-- Author tags are optional, mutiple are allowed, one per tag -->

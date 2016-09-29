@@ -14,6 +14,9 @@ class VL53L0X
     // register addresses from API vl53l0x_device.h (ordered as listed there)
 
     
+    char *i2cdevName = "/dev/i2c-7";
+    const unsigned char i2cAddress = 0x29;
+    int fd;
     enum regAddr
     {
       SYSRANGE_START                              = 0x00,
@@ -144,9 +147,6 @@ class VL53L0X
     // MSRC: Minimum Signal Rate Check
     // DSS: Dynamic Spad Selection
 
-    char *i2cdevName = "/dev/i2c-7";
-    const unsigned char i2cAddress = 0x29;
-    int fd;
     struct SequenceStepEnables
     {
       boolean tcc, msrc, dss, pre_range, final_range;

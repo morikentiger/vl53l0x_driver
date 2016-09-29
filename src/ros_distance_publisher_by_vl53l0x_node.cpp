@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <stddef.h>	//#define NULL ...
 #include <linux/i2c-dev.h>
-#include <ros_distance_publisher_by_vl53l0x/VL53L0X.h>
+#include <vl53l0x_driver/VL53L0X.h>
 
 
 VL53L0X sensor;
@@ -61,26 +61,26 @@ void setup()
 
 int main(int argc, char **argv)
 {
-	ros::init(argc, argv, "Single_VL53L0X");
+	ros::init(argc, argv, "vl53l0x_driver");
 	ros::NodeHandle n;
 	setup();
 
-	ros::Publisher chatter_pub = n.advertise<std_msgs::Float64>("distance_m", 1000);
+	ros::Publisher chatter_pub = n.advertise<std_msgs::Float64>("distance", 1000);
 
 	ros::Rate loop_rate(10);
 
 	while (ros::ok())
 	{
-		std_msgs::Float64 distance;
+		std_msgs::Float64 Distance;
 
-		float distance_m = sensor.readRangeSingleMillimeters();
-		distance_m = distance_m/1000;
-		printf("readRangeSingleMillimeters:%lf\n",distance_m);
+		float distance = sensor.readRangeSingleMillimeters();
+		distance = distance/1000;
+		printf("readRangeSingleMillimeters:%lf\n",distance);
 		if (sensor.timeoutOccurred()) { printf(" TIMEOUT_loop\n"); }
 		
-		distance.data = distance_m;
+		Distance.data = distance;
 
-		chatter_pub.publish(distance);
+		chatter_pub.publish(Distance);
 
 		ros::spinOnce();
 
