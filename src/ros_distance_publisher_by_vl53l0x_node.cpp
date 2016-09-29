@@ -65,7 +65,7 @@ int main(int argc, char **argv)
 	ros::NodeHandle n;
 	setup();
 
-	ros::Publisher chatter_pub = n.advertise<std_msgs::Float64>("distance", 1000);
+	ros::Publisher chatter_pub = n.advertise<std_msgs::Float64>("distance", 10);
 
 	ros::Rate loop_rate(10);
 
