@@ -6,9 +6,10 @@
  "SingleRanging" examples in the VL53L0X API.
 
  The range readings are in units of mm. */
-#include "ros/ros.h"
-#include "std_msgs/String.h"
-#include "std_msgs/Float64.h"
+#include <ros/ros.h>
+#include <ros/console.h>
+#include <std_msgs/String.h>
+#include <std_msgs/Float64.h>
 
 #include <stdio.h>
 #include <stddef.h>	//#define NULL ...
@@ -78,9 +79,9 @@ int main(int argc, char **argv)
 		std_msgs::Float64 Distance;
 
 		float distance = sensor.readRangeSingleMillimeters();
-		distance = distance/1000;
-		printf("readRangeSingleMillimeters:%lf\n",distance);
-		if (sensor.timeoutOccurred()) { printf(" TIMEOUT_loop\n"); }
+		distance = distance/1000.;
+		ROS_DEBUG("readRangeSingleMillimeters:%lf",distance);
+		if (sensor.timeoutOccurred()) { ROS_DEBUG(" TIMEOUT_loop"); }
 		
 		Distance.data = distance;
 
