@@ -65,9 +65,13 @@ int main(int argc, char **argv)
 	ros::NodeHandle n;
 	setup();
 
+	// load parameters from rosparam
+	int hz;
+	n.param("frequency", hz, 10);
+
 	ros::Publisher chatter_pub = n.advertise<std_msgs::Float64>("distance", 10);
 
-	ros::Rate loop_rate(10);
+	ros::Rate loop_rate(hz);
 
 	while (ros::ok())
 	{
