@@ -1,0 +1,9 @@
+<!-- -*- mode: XML -*- -->
+<launch>
+
+	<arg name="sensing_hz" default="10" />
+
+	<node name="vl53l0x_driver" pkg="vl53l0x_driver" type="vl53l0x_driver" >
+		<param name="frequency" value="$(arg sensing_hz)" />
+	</node>
+</launch>
