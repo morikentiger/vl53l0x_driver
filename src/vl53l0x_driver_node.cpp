@@ -71,14 +71,28 @@ int main(int argc, char **argv)
 	n.param("frequency", hz, 10);
 
 	ros::Publisher chatter_pub = n.advertise<std_msgs::Float64>("distance", 10);
+	ros::Publisher chatter_pub2 = n.advertise<std_msgs::Float64>("distanceMAF", 10);
+
 
 	ros::Rate loop_rate(hz);
 
 	float distance_past = 0;
 
+	//MovingAverageFilter
+	unsigned int pointNum = 10;
+	float distanceMAF[pointNum];
+	float distanceMAF_past = 0;
+	float sum = 0;
+	for (int i=0;i<pointNum;i++){distanceMAF[i]=0;}
+	unsigned int cnt = 0;
+
 	while (ros::ok())
 	{
 		std_msgs::Float64 Distance;
+		std_msgs::Float64 DistanceMAF;
+		
+
+		if(cnt >= pointNum){cnt = 0;}
 
 		float distance = sensor.readRangeSingleMillimeters();
 		if (distance > 8000){
@@ -87,13 +101,24 @@ int main(int argc, char **argv)
 		}
 		distance = distance/1000.;
 		ROS_DEBUG("readRangeSingleMillimeters:%lf",distance);
+		distanceMAF_past = distanceMAF[cnt];
+		distanceMAF[cnt] = distance;
+		
+		//for(int i=0;i<pointNum;i++){sum += distanceMAF[i];}
+		sum += distanceMAF[cnt];
+		sum -= distanceMAF_past;
+		DistanceMAF.data = sum / pointNum;
+		cnt++;
+
 		if (sensor.timeoutOccurred()) { ROS_DEBUG(" TIMEOUT_loop"); }
 		
 		Distance.data = distance;
 
 		distance_past = distance;
-
+		
 		chatter_pub.publish(Distance);
+
+		chatter_pub2.publish(DistanceMAF);
 
 		ros::spinOnce();
 
