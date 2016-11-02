@@ -74,16 +74,24 @@ int main(int argc, char **argv)
 
 	ros::Rate loop_rate(hz);
 
+	float distance_past = 0;
+
 	while (ros::ok())
 	{
 		std_msgs::Float64 Distance;
 
 		float distance = sensor.readRangeSingleMillimeters();
+		if (distance > 8000){
+			ROS_DEBUG("OutOfLenge8191");
+			distance = distance_past*1000;
+		}
 		distance = distance/1000.;
 		ROS_DEBUG("readRangeSingleMillimeters:%lf",distance);
 		if (sensor.timeoutOccurred()) { ROS_DEBUG(" TIMEOUT_loop"); }
 		
 		Distance.data = distance;
+
+		distance_past = distance;
 
 		chatter_pub.publish(Distance);
 
@@ -91,7 +99,6 @@ int main(int argc, char **argv)
 
 		loop_rate.sleep();
 	}
-
 	return 0;
 
 }
