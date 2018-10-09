@@ -99,9 +99,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
  INCLUDE_DIRS include
- LIBRARIES ros_distance_publisher_by_vl53l0x
- CATKIN_DEPENDS roscpp std_msgs
- DEPENDS system_lib
+# LIBRARIES ros_distance_publisher_by_vl53l0x
+# CATKIN_DEPENDS roscpp std_msgs
+# DEPENDS system_lib
 )
 
 ###########
@@ -127,7 +127,7 @@ include_directories(
 # add_dependencies(ros_distance_publisher_by_vl53l0x ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(vl53l0x_driver src/VL53L0X.cpp src/vl53l0x_driver_node.cpp)
+add_executable(vl53l0x_driver src/I2Cdev.cpp src/VL53L0X.cpp src/vl53l0x_driver_node.cpp)
 target_link_libraries(vl53l0x_driver ${catkin_LIBRARIES})
 ## Add cmake target dependencies of the executable
 ## same as for the library above
