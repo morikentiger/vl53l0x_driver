@@ -13,8 +13,8 @@
 
 #include <stdio.h>
 #include <stddef.h>	//#define NULL ...
-#include <linux/i2c-dev.h>
-#include <vl53l0x_driver/VL53L0X.h>
+//#include <linux/i2c-dev.h>
+#include <VL53L0X.hpp>
 
 
 VL53L0X sensor;
@@ -40,9 +40,9 @@ VL53L0X sensor;
 
 void setup()
 {
-  sensor.init();
+  sensor.initialize();
   sensor.setTimeout(500);
-  
+
 #if defined LONG_RANGE
   // lower the return signal rate limit (default is 0.25 MCPS)
   sensor.setSignalRateLimit(0.1);
@@ -88,7 +88,7 @@ int main(int argc, char **argv)
 		distance = distance/1000.;
 		ROS_DEBUG("readRangeSingleMillimeters:%lf",distance);
 		if (sensor.timeoutOccurred()) { ROS_DEBUG(" TIMEOUT_loop"); }
-		
+
 		Distance.data = distance;
 
 		distance_past = distance;
