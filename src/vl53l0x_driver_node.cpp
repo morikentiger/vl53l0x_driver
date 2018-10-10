@@ -8,8 +8,9 @@
  The range readings are in units of mm. */
 #include <ros/ros.h>
 #include <ros/console.h>
-#include <std_msgs/String.h>
+//#include <std_msgs/String.h>
 #include <std_msgs/Float64.h>
+#include <sensor_msgs/Range.h>
 
 #include <stdio.h>
 #include <stddef.h>	//#define NULL ...
@@ -86,7 +87,7 @@ int main(int argc, char **argv)
 	// Seed Recommed measure distance 30mm-1000mm
         range_msg.min_range  = 0; 
 	// TODO: max depends on mode
-        range_msg.max_range = 2;
+        range_msg.max_range = MAX_RANGE;
 
 	//ros::Publisher chatter_pub = n.advertise<std_msgs::Float64>("distance", 10);
 	ros::Publisher range_pub = n.advertise<sensor_msgs::Range>("range", 1, false);
