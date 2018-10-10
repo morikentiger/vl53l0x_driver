@@ -19,6 +19,7 @@
 
 VL53L0X sensor;
 
+float MAX_RANGE = 2;
 
 // Uncomment this line to use long range mode. This
 // increases the sensitivity of the sensor and extends its
@@ -68,10 +69,27 @@ int main(int argc, char **argv)
 
 	// load parameters from rosparam
 	int hz;
+	std::string range_frame_id_;
+	
 	n.param("frequency", hz, 10);
+	n.param<std::string>("frame_id", range_frame_id_, "range_link");
 
-	ros::Publisher chatter_pub = n.advertise<std_msgs::Float64>("distance", 10);
+	sensor_msgs::Range range_msg;
 
+	ros::Time current_time = ros::Time::now();
+
+      	range_msg.header.stamp = current_time;
+        range_msg.header.frame_id = range_frame_id_;
+        range_msg.radiation_type = sensor_msgs::Range::ULTRASOUND;
+	// VL53L0X system FOV is 25degrees.
+        range_msg.field_of_view = 0.4363323; 
+	// Seed Recommed measure distance 30mm-1000mm
+        range_msg.min_range  = 0; 
+	// TODO: max depends on mode
+        range_msg.max_range = 2;
+
+	//ros::Publisher chatter_pub = n.advertise<std_msgs::Float64>("distance", 10);
+	ros::Publisher range_pub = n.advertise<sensor_msgs::Range>("range", 1, false);
 	ros::Rate loop_rate(hz);
 
 	float distance_past = 0;
@@ -90,10 +108,11 @@ int main(int argc, char **argv)
 		if (sensor.timeoutOccurred()) { ROS_DEBUG(" TIMEOUT_loop"); }
 
 		Distance.data = distance;
-
+		range_msg.range = distance; 
 		distance_past = distance;
-
-		chatter_pub.publish(Distance);
+		
+		//chatter_pub.publish(Distance);
+		range_pub.publish(range_msg);
 
 		ros::spinOnce();
 
