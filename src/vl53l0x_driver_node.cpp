@@ -16,6 +16,7 @@
 #include <stddef.h>	//#define NULL ...
 //#include <linux/i2c-dev.h>
 #include <VL53L0X.hpp>
+//#include <stdexcept>
 
 
 VL53L0X sensor;
@@ -42,6 +43,7 @@ float MAX_RANGE = 2;
 
 void setup()
 {
+
   sensor.initialize();
   sensor.setTimeout(500);
 
@@ -60,12 +62,16 @@ void setup()
   // increase timing budget to 200 ms
   sensor.setMeasurementTimingBudget(200000);
 #endif
+
 }
 
 int main(int argc, char **argv)
 {
 	ros::init(argc, argv, "vl53l0x_driver");
 	ros::NodeHandle n;
+
+  ROS_INFO("Initializing node %s in namespace: %s", ros::this_node::getName().c_str(), ros::this_node::getNamespace().c_str() );
+
 	setup();
 
 	// load parameters from rosparam
@@ -99,7 +105,8 @@ int main(int argc, char **argv)
 	{
 		//std_msgs::Float64 Distance;
 
-		float distance = sensor.readRangeSingleMillimeters();
+    float distance = sensor.readRangeSingleMillimeters();
+
 		if (distance > 8000){
 			ROS_DEBUG("OutOfLenge8191");
 			distance = distance_past*1000;
