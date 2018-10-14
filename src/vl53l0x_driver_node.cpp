@@ -9,7 +9,7 @@
 #include <ros/ros.h>
 #include <ros/console.h>
 //#include <std_msgs/String.h>
-#include <std_msgs/Float64.h>
+//#include <std_msgs/Float64.h>
 #include <sensor_msgs/Range.h>
 
 #include <stdio.h>
@@ -71,7 +71,7 @@ int main(int argc, char **argv)
 	// load parameters from rosparam
 	int hz;
 	std::string range_frame_id_;
-	
+
 	n.param("frequency", hz, 10);
 	n.param<std::string>("frame_id", range_frame_id_, "range_link");
 
@@ -79,15 +79,15 @@ int main(int argc, char **argv)
 
 	ros::Time current_time = ros::Time::now();
 
-      	range_msg.header.stamp = current_time;
-        range_msg.header.frame_id = range_frame_id_;
-        range_msg.radiation_type = sensor_msgs::Range::ULTRASOUND;
+  range_msg.header.stamp = current_time;
+  range_msg.header.frame_id = range_frame_id_;
+  range_msg.radiation_type = sensor_msgs::Range::ULTRASOUND;
 	// VL53L0X system FOV is 25degrees.
-        range_msg.field_of_view = 0.4363323; 
+  range_msg.field_of_view = 0.4363323;
 	// Seed Recommed measure distance 30mm-1000mm
-        range_msg.min_range  = 0; 
+  range_msg.min_range  = 0;
 	// TODO: max depends on mode
-        range_msg.max_range = MAX_RANGE;
+  range_msg.max_range = MAX_RANGE;
 
 	//ros::Publisher chatter_pub = n.advertise<std_msgs::Float64>("distance", 10);
 	ros::Publisher range_pub = n.advertise<sensor_msgs::Range>("range", 1, false);
@@ -97,7 +97,7 @@ int main(int argc, char **argv)
 
 	while (ros::ok())
 	{
-		std_msgs::Float64 Distance;
+		//std_msgs::Float64 Distance;
 
 		float distance = sensor.readRangeSingleMillimeters();
 		if (distance > 8000){
@@ -108,10 +108,10 @@ int main(int argc, char **argv)
 		ROS_DEBUG("readRangeSingleMillimeters:%lf",distance);
 		if (sensor.timeoutOccurred()) { ROS_DEBUG(" TIMEOUT_loop"); }
 
-		Distance.data = distance;
-		range_msg.range = distance; 
+		//Distance.data = distance;
+		range_msg.range = distance;
 		distance_past = distance;
-		
+
 		//chatter_pub.publish(Distance);
 		range_pub.publish(range_msg);
 
