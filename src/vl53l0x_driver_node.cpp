@@ -21,7 +21,7 @@
 
 VL53L0X sensor;
 
-float MAX_RANGE = 2;
+float MAX_RANGE = 1.3; // 1.2m according docs for default mode
 
 // Uncomment this line to use long range mode. This
 // increases the sensitivity of the sensor and extends its
@@ -99,7 +99,7 @@ int main(int argc, char **argv)
 	ros::Publisher range_pub = n.advertise<sensor_msgs::Range>("range", 1, false);
 	ros::Rate loop_rate(hz);
 
-	float distance_past = 0;
+	// float distance_past = 0;
 
 	while (ros::ok())
 	{
@@ -107,17 +107,20 @@ int main(int argc, char **argv)
 
     float distance = sensor.readRangeSingleMillimeters();
 
+
 		if (distance > 8000){
-			ROS_DEBUG("OutOfLenge8191");
-			distance = distance_past*1000;
+			ROS_DEBUG("OutOfLenge8191: %f", distance);
+			// distance = distance_past*1000;
+      distance=MAX_RANGE*1000;
 		}
+
 		distance = distance/1000.;
 		ROS_DEBUG("readRangeSingleMillimeters:%lf",distance);
 		if (sensor.timeoutOccurred()) { ROS_DEBUG(" TIMEOUT_loop"); }
 
 		//Distance.data = distance;
 		range_msg.range = distance;
-		distance_past = distance;
+		//distance_past = distance;
 
 		//chatter_pub.publish(Distance);
 		range_pub.publish(range_msg);
