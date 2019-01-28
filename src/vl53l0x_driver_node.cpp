@@ -83,9 +83,7 @@ int main(int argc, char **argv)
 
 	sensor_msgs::Range range_msg;
 
-	ros::Time current_time = ros::Time::now();
 
-  range_msg.header.stamp = current_time;
   range_msg.header.frame_id = range_frame_id_;
   range_msg.radiation_type = sensor_msgs::Range::ULTRASOUND;
 	// VL53L0X system FOV is 25degrees.
@@ -103,6 +101,8 @@ int main(int argc, char **argv)
 
 	while (ros::ok())
 	{
+	  ros::Time current_time = ros::Time::now();
+  	range_msg.header.stamp = current_time;
 		//std_msgs::Float64 Distance;
 
     float distance = sensor.readRangeSingleMillimeters();
