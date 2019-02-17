@@ -3,7 +3,7 @@
 
 	<arg name="sensing_hz" default="10" />
 
-	<node name="vl53l0x_driver" pkg="vl53l0x_driver" type="vl53l0x_driver" >
+	<node name="vl53l0x_driver" pkg="vl53l0x_driver" type="vl53l0x_driver" respawn="true" respawn_delay="5" >
 		<param name="frequency" value="$(arg sensing_hz)" />
 	</node>
 </launch>
